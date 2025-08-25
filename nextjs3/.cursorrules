@@ -1,0 +1,26 @@
+//.cursorrules文件
+# 回答方式:
+- Always respond in 中文
+
+# 安装包方式:
+- 使用pnpm安装包,不要使用npm
+- 如果需要安装包就用pnpm 帮我自动安装
+
+# 命名规范:
+- 函数名,方法名,变量名,文件名,目录名,使用下划线命名法
+
+# 不要是用的技术:
+- 不要使用element-plus/icons-vue
+
+# 网站开发项目规范配置:
+- 每一次会话请求结束后进行会话总结,
+- 无论生成新文件还是修改已有文件都需要做总并将总结内容Append写入到readme_cursor.md文件中
+- 会话的主要目的(readme_cursor.md)
+- 完成的主要任务(readme_cursor.md)
+- 关键决策和解决方案(readme_cursor.md)
+- 使用的技术栈修改了哪些文件(readme_cursor.md)
+- 说明文件中的内容是累积增加的(readme_cursor.md)
+- 但是不要修改我的(README.md,readme.md,readme_cursor.md)文件
+
+
+

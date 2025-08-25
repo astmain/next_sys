@@ -1,0 +1,40 @@
+//  prisma使用规范
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" //  使用sqlite时无法用JSON{},只能使用JSON[]
+  url      = "file:./sqlite.db" //  E:/AAA/dayu_sys/dayu_sys02/demo5/make_orm_prisma/sqlite.db
+
+  // provider = "postgresql"
+  // url      = env("URL_postgresql")
+
+  // provider = env("DB_provider")
+  // provider = "sqlite"
+  // url      = env("DB_url")
+}
+
+
+// 文件表
+model tb_file {
+  id            Int     @id @default(autoincrement())
+  is_file       Boolean @default(true)
+  user_id       Int     @default(1)
+  name          String  @default("")
+  path_relative String  @default("")
+  size          Int     @default(0) // 文件大小
+  type          String  @default("") // 文件类型
+  url           String  @default("") // 文件url
+
+  // 自关联数据
+  parent_id Int?
+  parent    tb_file?  @relation("self_tb_file", fields: [parent_id], references: [id], onDelete: Cascade, onUpdate: Cascade) //自关联数据
+  children  tb_file[] @relation("self_tb_file")
+  // 时间
+  // create_at   DateTime  @default(now())
+  // update_at   DateTime  @updatedAt
+
+  // 约束唯一-文件名称和父级id
+  @@unique([name, parent_id])
+}

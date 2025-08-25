@@ -1,0 +1,16 @@
+//  prisma使用规范
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" //  使用sqlite时无法用JSON{},只能使用JSON[]
+  url      = "file:./sqlite.db"
+}
+
+
+// 文件表
+model tb_user {
+  id            Int     @id @default(autoincrement())
+  name          String  @default("")
+}

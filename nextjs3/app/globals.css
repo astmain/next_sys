@@ -1,0 +1,30 @@
+@import 'tailwindcss';
+
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --border-color: #e5e7eb;
+}
+
+.dark {
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --text-primary: #f9fafb;
+  --text-secondary: #d1d5db;
+  --border-color: #374151;
+}
+
+html,
+body {
+  height: 100%;
+  font-size: 16px;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* 确保主题切换时有平滑过渡 */
+/* * {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+} */
