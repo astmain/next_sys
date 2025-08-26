@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, Form, Input, Button, Tabs } from '@arco-design/web-react'
 import { axios_api } from '../axios_api'
 import { BUS } from '../page'
@@ -11,6 +11,21 @@ export default function LoginPage() {
   const [active_tab, set_active_tab] = useState('login')
   const [loading, set_loading] = useState(false)
   const router = useRouter()
+
+  // 抑制React 19 ref警告
+  useEffect(() => {
+    const originalError = console.error;
+    console.error = (...args) => {
+      if (args[0] && typeof args[0] === 'string' && args[0].includes('Accessing element.ref was removed in React 19')) {
+        return;
+      }
+      originalError.apply(console, args);
+    };
+    
+    return () => {
+      console.error = originalError;
+    };
+  }, []);
 
   const handle_login = async (values: any) => {
     try {
