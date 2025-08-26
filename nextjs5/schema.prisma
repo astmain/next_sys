@@ -3,33 +3,48 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "sqlite" //  使用sqlite时无法用JSON{},只能使用JSON[]
-  url      = "file:./sqlite.db"
-}
-
 // 用户表
 model tb_user {
   id            Int     @id @default(autoincrement())
+  phone     String   @unique //注册和登录都使用手机号
+  password  String
+  name      String?  // 昵称
+  remark    String?  // 描述备注
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 直接关联角色（隐式多对多）
+  tb_role tb_role[]
 }
-
-
-// 部门表
-model tb_depart {
-  id            Int     @id @default(autoincrement())
-}
-
 
 // 角色表
 model tb_role {
   id            Int     @id @default(autoincrement())
+  name      String   @unique // 如"admin",  "guest"
+  remark    String? // 描述备注
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 关联用户和权限（隐式多对多）
+  tb_user       tb_user[]
+  tb_permission tb_permission[]
 }
 
-
-// 角色表
-model tb_menu {
+// 权限表
+model tb_permission {
   id            Int     @id @default(autoincrement())
+  name      String    @unique // 如"read:data", "write:data"
+  remark    String? // 描述备注
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  // 关联角色（隐式多对多）
+  roles     tb_role[]
 }
 
 
+// 文章表
+model tb_article {
+  id            Int     @id @default(autoincrement())
+  // 文章表的字段帮我设计
 
+}
