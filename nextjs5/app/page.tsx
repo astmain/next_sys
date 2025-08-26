@@ -22,7 +22,6 @@ export const BUS = proxy({
   // 页面数据
   data: {
     users: [] as any[],
-    departments: [] as any[],
     roles: [] as any[],
     articles: [] as any[],
   },

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Card, Table, Input, Button, Space, Modal, Form, Select, Message } from '@arco-design/web-react'
+import { Card, Table, Input, Button, Space, Modal, Form, Message } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '../../app/page'
 import { axios_api } from '../../app/axios_api'
@@ -11,13 +11,9 @@ export default function UserManagement() {
   const [search_name, set_search_name] = useState('')
   const [modal_visible, set_modal_visible] = useState(false)
   const [editing_user, set_editing_user] = useState<any>(null)
-  const [departments, set_departments] = useState<any[]>([])
-  const [roles, set_roles] = useState<any[]>([])
 
   useEffect(() => {
     load_users()
-    load_departments()
-    load_roles()
   }, [])
 
   const load_users = async () => {
@@ -31,28 +27,6 @@ export default function UserManagement() {
       }
     } catch (error) {
       console.error('加载用户列表失败:', error)
-    }
-  }
-
-  const load_departments = async () => {
-    try {
-      const response: any = await axios_api.post('/api/departments/list')
-      if (response.success) {
-        set_departments(response.data)
-      }
-    } catch (error) {
-      console.error('加载部门列表失败:', error)
-    }
-  }
-
-  const load_roles = async () => {
-    try {
-      const response: any = await axios_api.post('/api/roles/list')
-      if (response.success) {
-        set_roles(response.data)
-      }
-    } catch (error) {
-      console.error('加载角色列表失败:', error)
     }
   }
 
@@ -99,12 +73,6 @@ export default function UserManagement() {
       title: '昵称',
       dataIndex: 'name',
       key: 'name'
-    },
-    {
-      title: '部门',
-      dataIndex: 'depart',
-      key: 'depart',
-      render: (depart: any) => depart?.name || '-'
     },
     {
       title: '角色',
@@ -185,15 +153,6 @@ export default function UserManagement() {
         >
           <Form.Item label="昵称" field="name" rules={[{ required: true, message: '请输入昵称' }]}>
             <Input placeholder="请输入昵称" />
-          </Form.Item>
-          <Form.Item label="部门" field="depart_id">
-            <Select placeholder="请选择部门">
-              {departments.map((dept: any) => (
-                <Select.Option key={dept.id} value={dept.id}>
-                  {dept.name}
-                </Select.Option>
-              ))}
-            </Select>
           </Form.Item>
           <Form.Item label="备注" field="remark">
             <Input.TextArea placeholder="请输入备注" />

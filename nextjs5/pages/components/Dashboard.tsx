@@ -19,7 +19,6 @@ export default function Dashboard() {
       const response: any = await axios_api.post('/api/dashboard/stats')
       if (response.success) {
         BUS.data.users = response.data.users || []
-        BUS.data.departments = response.data.departments || []
         BUS.data.roles = response.data.roles || []
         BUS.data.articles = response.data.articles || []
       }
@@ -33,7 +32,7 @@ export default function Dashboard() {
       <h2 style={{ marginBottom: 24 }}>仪表盘</h2>
       
       <Row gutter={16}>
-        <Col span={6}>
+        <Col span={8}>
           <Card>
             <Statistic
               title="用户总数"
@@ -42,16 +41,7 @@ export default function Dashboard() {
             />
           </Card>
         </Col>
-        <Col span={6}>
-          <Card>
-            <Statistic
-              title="部门总数"
-              value={snap.data.departments.length}
-              style={{ color: '#52c41a' }}
-            />
-          </Card>
-        </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Card>
             <Statistic
               title="角色总数"
@@ -60,7 +50,7 @@ export default function Dashboard() {
             />
           </Card>
         </Col>
-        <Col span={6}>
+        <Col span={8}>
           <Card>
             <Statistic
               title="文章总数"

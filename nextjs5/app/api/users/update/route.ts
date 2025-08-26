@@ -5,7 +5,7 @@ const prisma = new PrismaClient()
 
 export async function POST(request: NextRequest) {
   try {
-    const { id, name, depart_id, remark } = await request.json()
+    const { id, name, remark } = await request.json()
     
     if (!id) {
       return NextResponse.json({ success: false, message: '用户ID不能为空' })
@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
       where: { id: parseInt(id) },
       data: {
         name,
-        depart_id: depart_id ? parseInt(depart_id) : null,
         remark
       }
     })

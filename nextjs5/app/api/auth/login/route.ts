@@ -14,7 +14,6 @@ export async function POST(request: NextRequest) {
     const user = await prisma.tb_user.findUnique({
       where: { phone },
       include: {
-        depart: true,
         roles: true
       }
     })
@@ -36,7 +35,6 @@ export async function POST(request: NextRequest) {
         id: user.id,
         phone: user.phone,
         name: user.name,
-        depart: user.depart,
         roles: user.roles
       },
       token

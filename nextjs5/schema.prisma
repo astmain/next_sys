@@ -15,26 +15,12 @@ model tb_user {
   password  String
   name      String?  // 昵称
   remark    String?  // 描述备注
-  depart_id Int?     // 部门ID
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   // 关联
-  depart    tb_depart? @relation(fields: [depart_id], references: [id])
   roles     tb_role[]
   articles  tb_article[]
-}
-
-// 部门表
-model tb_depart {
-  id            Int     @id @default(autoincrement())
-  name      String   @unique // 部门名称
-  remark    String? // 描述备注
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // 关联
-  users    tb_user[]
 }
 
 // 角色表

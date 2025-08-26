@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
     const users = await prisma.tb_user.findMany({
       where,
       include: {
-        depart: true,
         roles: true
       },
       orderBy: {
