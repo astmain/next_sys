@@ -16,7 +16,7 @@ export default function LoginPage() {
     try {
       set_loading(true)
       const response: any = await axios_api.post('/api/auth/login', values)
-      
+      console.log("response",response)
       if (response.success) {
         BUS.auth.is_logged_in = true
         BUS.auth.user = response.user
