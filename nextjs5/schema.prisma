@@ -3,6 +3,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider = "sqlite"
+  url      = "file:./sqlite.db"
+}
+
 // 用户表
 model tb_user {
   id            Int     @id @default(autoincrement())
@@ -10,11 +15,26 @@ model tb_user {
   password  String
   name      String?  // 昵称
   remark    String?  // 描述备注
+  depart_id Int?     // 部门ID
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // 直接关联角色（隐式多对多）
-  tb_role tb_role[]
+  // 关联
+  depart    tb_depart? @relation(fields: [depart_id], references: [id])
+  roles     tb_role[]
+  articles  tb_article[]
+}
+
+// 部门表
+model tb_depart {
+  id            Int     @id @default(autoincrement())
+  name      String   @unique // 部门名称
+  remark    String? // 描述备注
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // 关联
+  users    tb_user[]
 }
 
 // 角色表
@@ -41,10 +61,15 @@ model tb_permission {
   roles     tb_role[]
 }
 
-
 // 文章表
 model tb_article {
   id            Int     @id @default(autoincrement())
-  // 文章表的字段帮我设计
+  title     String   // 文章标题
+  content   String   // 文章内容
+  author_id Int      // 作者ID
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
+  // 关联
+  author   tb_user @relation(fields: [author_id], references: [id])
 }
