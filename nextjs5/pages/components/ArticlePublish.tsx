@@ -1,6 +1,6 @@
 'use client'
 import { useState, useRef } from 'react'
-import { Card, Form, Input, Button, Message } from '@arco-design/web-react'
+import { Card, Form, Input, Button } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '../../app/page'
 import { axios_api } from '../../app/axios_api'
@@ -19,16 +19,16 @@ export default function ArticlePublish() {
       })
       
       if (response.success) {
-        Message.success('文章发布成功')
+        alert('文章发布成功')
         // 重置表单
         if (form_ref.current) {
           form_ref.current.resetFields()
         }
       } else {
-        Message.error(response.message || '发布失败')
+        alert(response.message || '发布失败')
       }
     } catch (error) {
-      Message.error('发布失败')
+      alert('发布失败')
     } finally {
       set_loading(false)
     }

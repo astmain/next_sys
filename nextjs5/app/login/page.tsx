@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { Card, Form, Input, Button, Tabs, Message } from '@arco-design/web-react'
+import { Card, Form, Input, Button, Tabs } from '@arco-design/web-react'
 import { axios_api } from '../axios_api'
 import { BUS } from '../page'
 import { useRouter } from 'next/navigation'
@@ -16,18 +16,18 @@ export default function LoginPage() {
     try {
       set_loading(true)
       const response: any = await axios_api.post('/api/auth/login', values)
-      console.log("response",response)
+
       if (response.success) {
         BUS.auth.is_logged_in = true
         BUS.auth.user = response.user
         BUS.auth.token = response.token
-        Message.success('登录成功')
+        alert('登录成功')
         router.push('/')
       } else {
-        Message.error(response.message || '登录失败')
+        alert(response.message || '登录失败')
       }
     } catch (error: any) {
-      Message.error(error.message || '登录失败')
+      alert(error.message || '登录失败')
     } finally {
       set_loading(false)
     }
@@ -37,32 +37,26 @@ export default function LoginPage() {
     try {
       set_loading(true)
       const response: any = await axios_api.post('/api/auth/register', values)
-      
+
       if (response.success) {
-        Message.success('注册成功，请登录')
+        alert('注册成功，请登录')
         set_active_tab('login')
       } else {
-        Message.error(response.message || '注册失败')
+        alert(response.message || '注册失败')
       }
     } catch (error: any) {
-      Message.error(error.message || '注册失败')
+      alert(error.message || '注册失败')
     } finally {
       set_loading(false)
     }
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#f5f5f5'
-    }}>
+    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5' }}>
       <Card style={{ width: 400 }}>
         <Tabs activeTab={active_tab} onChange={set_active_tab}>
           <TabPane key="login" title="登录">
-            <Form onSubmit={handle_login} layout="vertical">
+            <Form onSubmit={handle_login} layout="vertical" initialValues={{ phone: '15160315110', password: '123456' }}>
               <Form.Item label="手机号" field="phone" rules={[{ required: true, message: '请输入手机号' }]}>
                 <Input placeholder="请输入手机号" />
               </Form.Item>
@@ -76,7 +70,7 @@ export default function LoginPage() {
               </Form.Item>
             </Form>
           </TabPane>
-          
+
           <TabPane key="register" title="注册">
             <Form onSubmit={handle_register} layout="vertical">
               <Form.Item label="手机号" field="phone" rules={[{ required: true, message: '请输入手机号' }]}>
@@ -102,4 +96,4 @@ export default function LoginPage() {
       </Card>
     </div>
   )
-} 
+}

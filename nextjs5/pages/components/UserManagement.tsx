@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Card, Table, Input, Button, Space, Modal, Form, Message } from '@arco-design/web-react'
+import { Card, Table, Input, Button, Space, Modal, Form } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '../../app/page'
 import { axios_api } from '../../app/axios_api'
@@ -46,14 +46,14 @@ export default function UserManagement() {
         ...values
       })
       if (response.success) {
-        Message.success('更新成功')
+        alert('更新成功')
         set_modal_visible(false)
         load_users()
       } else {
-        Message.error(response.message || '更新失败')
+        alert(response.message || '更新失败')
       }
     } catch (error) {
-      Message.error('更新失败')
+      alert('更新失败')
     }
   }
 

@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Card, Table, Input, Button, Space, Modal, Form, Message } from '@arco-design/web-react'
+import { Card, Table, Input, Button, Space, Modal, Form } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '../../app/page'
 import { axios_api } from '../../app/axios_api'
@@ -49,14 +49,14 @@ export default function RoleManagement() {
       
       const response: any = await axios_api.post(api, data)
       if (response.success) {
-        Message.success(editing_role ? '更新成功' : '创建成功')
+        alert(editing_role ? '更新成功' : '创建成功')
         set_modal_visible(false)
         load_roles()
       } else {
-        Message.error(response.message || '操作失败')
+        alert(response.message || '操作失败')
       }
     } catch (error) {
-      Message.error('操作失败')
+      alert('操作失败')
     }
   }
 

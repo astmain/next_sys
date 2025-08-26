@@ -1,5 +1,5 @@
 'use client'
-import { Card, Grid, Statistic } from '@arco-design/web-react'
+import { Card, Grid, Statistic, Button,Message } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '../../app/page'
 import { useEffect } from 'react'
@@ -27,46 +27,40 @@ export default function Dashboard() {
     }
   }
 
+  function test() {
+    console.log(snap.auth.user)
+    Message.success('测试成功')
+  }
+
   return (
     <div>
       <h2 style={{ marginBottom: 24 }}>仪表盘</h2>
-      
-      <Row gutter={16}>
-        <Col span={8}>
-          <Card>
-            <Statistic
-              title="用户总数"
-              value={snap.data.users.length}
-              style={{ color: '#1890ff' }}
-            />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card>
-            <Statistic
-              title="角色总数"
-              value={snap.data.roles.length}
-              style={{ color: '#faad14' }}
-            />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card>
-            <Statistic
-              title="文章总数"
-              value={snap.data.articles.length}
-              style={{ color: '#f5222d' }}
-            />
-          </Card>
-        </Col>
-      </Row>
+      <Button type="primary" onClick={test}>
+        测试
+      </Button>
 
-      <Card style={{ marginTop: 24 }}>
-        <h3>系统信息</h3>
-        <p>欢迎使用后台管理系统</p>
+      <Card style={{ marginBottom: 24 }}>
         <p>当前用户: {snap.auth.user?.name || '未知'}</p>
         <p>用户角色: {snap.auth.user?.roles?.map((role: any) => role.name).join(', ') || '无'}</p>
       </Card>
+
+      <Row gutter={16}>
+        <Col span={8}>
+          <Card>
+            <Statistic title="用户总数" value={snap.data.users.length} style={{ color: '#1890ff' }} />
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card>
+            <Statistic title="角色总数" value={snap.data.roles.length} style={{ color: '#faad14' }} />
+          </Card>
+        </Col>
+        <Col span={8}>
+          <Card>
+            <Statistic title="文章总数" value={snap.data.articles.length} style={{ color: '#f5222d' }} />
+          </Card>
+        </Col>
+      </Row>
     </div>
   )
-} 
+}
