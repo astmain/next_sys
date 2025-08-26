@@ -1,0 +1,72 @@
+//  prisma使用规范
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite" //  使用sqlite时无法用JSON{},只能使用JSON[]
+  url      = "file:./sqlite.db"
+}
+
+// 用户表
+model tb_user {
+  id            Int     @id @default(autoincrement())
+  name          String  @default("")
+  role          String  @default("") // 角色: employee(员工), supervisor(主管), ceo(董事长)
+  department    String  @default("") // 部门
+  
+  // 关系字段
+  leave_requests        tb_leave_request[]
+  workflow_steps        tb_workflow_step[]
+}
+
+// 请假申请表
+model tb_leave_request {
+  id              Int      @id @default(autoincrement())
+  employee_id     Int      // 员工ID
+  employee_name   String   // 员工姓名
+  leave_days      Int      // 请假天数
+  reason          String   // 请假原因
+  status          String   @default("pending") // 状态: pending(待审批), approved(已批准), rejected(已拒绝)
+  supervisor_approved Boolean @default(false) // 主管是否已批准
+  ceo_approved    Boolean  @default(false) // 董事长是否已批准
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  
+  // 关系字段
+  employee        tb_user  @relation(fields: [employee_id], references: [id])
+  workflow_instances tb_workflow_instance[]
+}
+
+// 工作流实例表
+model tb_workflow_instance {
+  id              Int      @id @default(autoincrement())
+  leave_request_id Int     // 关联的请假申请ID
+  workflow_type   String   // 工作流类型: simple(简单流程), complex(复杂流程)
+  current_step    String   // 当前步骤
+  status          String   @default("running") // 状态: running(运行中), completed(已完成), failed(失败)
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+  
+  // 关系字段
+  leave_request   tb_leave_request @relation(fields: [leave_request_id], references: [id])
+  workflow_steps  tb_workflow_step[]
+}
+
+// 工作流步骤记录表
+model tb_workflow_step {
+  id                  Int      @id @default(autoincrement())
+  workflow_instance_id Int     // 工作流实例ID
+  step_name           String   // 步骤名称
+  step_type           String   // 步骤类型: approval(审批), notification(通知)
+  assignee_id         Int      // 处理人ID
+  assignee_name       String   // 处理人姓名
+  status              String   @default("pending") // 状态: pending(待处理), approved(已批准), rejected(已拒绝)
+  comment             String   @default("") // 审批意见
+  created_at          DateTime @default(now())
+  completed_at        DateTime? // 完成时间
+  
+  // 关系字段
+  workflow_instance   tb_workflow_instance @relation(fields: [workflow_instance_id], references: [id])
+  assignee            tb_user  @relation(fields: [assignee_id], references: [id])
+}

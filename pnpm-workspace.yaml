@@ -3,8 +3,11 @@ packages:
   - "nextjs2"
   - "nextjs3"
   - "nextjs4"
-
-
+  - "nextjs5"
+  - "nextjs6"
+  - "nextjs7"
+  - "nextjs8"
+  - "nextjs9"
 
   # 工具 =====================================================
   - "Tools"
