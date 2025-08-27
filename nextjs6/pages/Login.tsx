@@ -4,8 +4,11 @@ import { Card, Form, Input, Button, Tabs, Message } from '@arco-design/web-react
 import { axios_api } from '@/app/axios_api'
 import { BUS } from '@/app/page'
 import { useRouter } from 'next/navigation'
+import { useSnapshot } from 'valtio'
 
 export default function Login() {
+  const snap = useSnapshot(BUS)
+  console.log('snap', snap)
   const [active_tab, set_active_tab] = useState('login')
   const router = useRouter()
 
@@ -17,7 +20,8 @@ export default function Login() {
 
       if (response.success) {
         BUS.auth.user = response.user
-        BUS.auth.token = response.token
+        BUS.auth.token = response.token + '1111'
+        console.log('BUS.auth.token', BUS.auth.token)
         Message.success('登录成功')
         router.push('/')
       } else {
