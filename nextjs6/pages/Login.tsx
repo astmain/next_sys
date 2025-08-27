@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Card, Form, Input, Button, Tabs, Message } from '@arco-design/web-react'
 import { axios_api } from '@/app/axios_api'
 import { BUS } from '@/app/page'

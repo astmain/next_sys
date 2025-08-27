@@ -8,8 +8,10 @@ export const BUS = proxy({
   // 用户认证状态
   auth: {
     is_logged_in: false,
-    user: null as any,
-    token: null as string | null,
+    user: {},
+    token: '',
+    // user: null as any,
+    // token: null as string | null,
   },
 
   // 菜单状态
