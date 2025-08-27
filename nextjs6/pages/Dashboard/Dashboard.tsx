@@ -1,14 +1,12 @@
 'use client'
-import { Card, Grid, Statistic, Button, Message } from '@arco-design/web-react'
+import { Card, Grid, Statistic, Button } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '@/app/page'
 import { useEffect } from 'react'
 import { axios_api } from '@/app/axios_api'
 
-const { Row, Col } = Grid
-
 export default function Dashboard() {
-  const snap = useSnapshot(BUS)
+  useSnapshot(BUS)
 
   useEffect(() => {
     load_dashboard_data()
@@ -27,40 +25,43 @@ export default function Dashboard() {
     }
   }
 
-  function test() {
-    console.log(snap.auth.user)
-    Message.success('测试成功')
-  }
-
   return (
-    <div>
-      <h2 style={{ marginBottom: 24 }}>仪表盘</h2>
-      <Button type="primary" onClick={test}>
-        测试
-      </Button>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <h2>仪表盘</h2>
 
-      <Card style={{ marginBottom: 24 }}>
-        <p>当前用户: {BUS.auth.user?.name || '未知'}</p>
-        <p>用户角色: {snap.auth.user?.roles?.map((role: any) => role.name).join(', ') || '无'}</p>
+      <Card>
+        <Button type="primary">技术文档</Button>
+        <p>arco: https://arco.design/react/components/menu</p>
+        <p>arco: https://arco.design/react/components/menu</p>
       </Card>
 
-      <Row gutter={16}>
-        <Col span={8}>
-          <Card>
-            <Statistic title="用户总数" value={snap.data.users.length} style={{ color: '#1890ff' }} />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card>
-            <Statistic title="角色总数" value={snap.data.roles.length} style={{ color: '#faad14' }} />
-          </Card>
-        </Col>
-        <Col span={8}>
-          <Card>
-            <Statistic title="文章总数" value={snap.data.articles.length} style={{ color: '#f5222d' }} />
-          </Card>
-        </Col>
-      </Row>
+      <Card>
+        <Button type="primary">用户信息</Button>
+        <p>当前用户: {BUS.auth.user?.name || '未知'}</p>
+        <p>用户角色: {BUS.auth.user?.roles?.map((role: any) => role.name).join(', ') || '无'}</p>
+      </Card>
+
+      <Card>
+        <Button type="primary">统计数据</Button>
+        <Grid.Row gutter={16}>
+          <Grid.Col span={8}>
+            <Card>
+              <Statistic title="用户总数" value={BUS.data.users.length} style={{ color: '#1890ff' }} />
+            </Card>
+          </Grid.Col>
+          <Grid.Col span={8}>
+            <Card>
+              <Statistic title="角色总数" value={BUS.data.roles.length} style={{ color: '#faad14' }} />
+            </Card>
+          </Grid.Col>
+          <Grid.Col span={8}>
+            <Card>
+              <Statistic title="文章总数" value={BUS.data.articles.length} style={{ color: '#f5222d' }} />
+            </Card>
+          </Grid.Col>
+        </Grid.Row>
+      </Card>
+      {/* 统计数据 */}
     </div>
   )
 }

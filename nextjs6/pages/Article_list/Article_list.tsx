@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Card, Table, Input, Button, Space, Modal } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '@/app/page'
@@ -11,11 +11,7 @@ export default function Article_list() {
   const [view_modal_visible, set_view_modal_visible] = useState(false)
   const [viewing_article, set_viewing_article] = useState<any>(null)
 
-  useEffect(() => {
-    load_articles()
-  }, [])
-
-  const load_articles = async () => {
+  const load_articles = useCallback(async () => {
     try {
       const response: any = await axios_api.post('/api/articles/list', {
         title: search_title,
@@ -26,7 +22,11 @@ export default function Article_list() {
     } catch (error) {
       console.error('加载文章列表失败:', error)
     }
-  }
+  }, [search_title])
+
+  useEffect(() => {
+    load_articles()
+  }, [load_articles])
 
   const handle_search = () => {
     load_articles()
