@@ -4,7 +4,7 @@
 import { useSnapshot } from 'valtio'
 import { proxy } from 'valtio'
 
-// 我希望BUS的auth 数据持久化, 当用户刷新页面时, 数据不会丢失
+// 我希望BUS的auth 数据持久化, 当用户刷新页面时, 数据不会丢失(我希望有专门的第三方库支持valtio的持久化)
 export const BUS = proxy({
   // 用户认证状态
   auth: {
