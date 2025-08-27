@@ -16,10 +16,8 @@ export default function Login() {
       console.log('response', response)
 
       if (response.success) {
-        BUS.auth.is_logged_in = true
         BUS.auth.user = response.user
         BUS.auth.token = response.token
-
         Message.success('登录成功')
         router.push('/')
       } else {

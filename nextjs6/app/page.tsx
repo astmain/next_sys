@@ -8,7 +8,6 @@ import { proxy } from 'valtio'
 export const BUS = proxy({
   // 用户认证状态
   auth: {
-    is_logged_in: false,
     user: {},
     token: '',
     // user: null as any,
@@ -42,7 +41,7 @@ import Main from '@/pages/Main'
 export default function Home() {
   const snap = useSnapshot(BUS)
   // 根据登录状态显示不同页面
-  if (snap.auth.is_logged_in) {
+  if (snap.auth.token) {
     return <Main />
   } else {
     return <Login />
