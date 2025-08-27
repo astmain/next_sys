@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "开发": "________________________________________________________________",
-    "init": "pnpm i",
-    "dev": "next dev    -H 127.0.0.1 -p 60001",
+    "pnpmi": "         pnpm i  ",
+    "dev": "          next dev    -H 127.0.0.1 -p 60001",
     "dev:generate": " dotenv -e .env.dev --        npx prisma generate --schema=./schema.prisma  ",
     "dev:push": "     dotenv -e .env.dev --        npx prisma db push  --schema=./schema.prisma  ",
     "其他": "________________________________________________________________",
