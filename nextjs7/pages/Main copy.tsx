@@ -107,14 +107,4 @@ export default function Main() {
 }
 
 
-// 在当页面注入下面的css
-// /* 强制隐藏所有省略号 - 使用通配符选择器 */
-// .arco-menu * {
-//   text-overflow: clip !important;
-//   margin-left: 7px !important;
-//   padding-left: 7px !important;
-// }
-// .arco-menu-inner {
-//   margin-left: 0px !important;
-// }
 
