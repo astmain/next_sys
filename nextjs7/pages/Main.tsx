@@ -56,56 +56,68 @@ export default function Main() {
   }
 
   return (
-    <Layout style={{ height: '100vh' }}>
-      <Sider collapsed={snap.menu.collapsed} collapsible width={180} collapsedWidth={60} onCollapse={(collapsed) => (BUS.menu.collapsed = collapsed)}>
-        <h2 style={{ color: '#1890ff', height: 60, alignItems: 'center', display: 'flex', justifyContent: 'center' }}>{snap.menu.collapsed ? '后台' : '后台管理系统'}</h2>
+    <>
+      {/* 注入CSS样式来隐藏省略号 */}
+      <style jsx>{`
+        .arco-menu * {
+          text-overflow: clip !important;
+          margin-left: 7px !important;
+          padding-left: 7px !important;
+        }
+        .arco-menu-inner {
+          margin-left: 0px !important;
+        }
+      `}</style>
 
-        {/* 左侧菜单栏 */}
-        <Menu selectedKeys={[selected_key]} onClickMenuItem={(key) => set_selected_key(key)}>
-          <MenuItem key="dashboard">📈 仪表盘</MenuItem>
-          <MenuItem key="users">🏢 用户管理</MenuItem>
-          <MenuItem key="roles">🤝 角色管理</MenuItem>
-          <MenuItem key="articles">📃 文章列表</MenuItem>
-          <MenuItem key="publish">✍️ 发布文章</MenuItem>
-        </Menu>
-      </Sider>
+      <Layout style={{ height: '100vh' }}>
+        <Sider collapsed={snap.menu.collapsed} collapsible width={180} collapsedWidth={60} onCollapse={(collapsed) => (BUS.menu.collapsed = collapsed)}>
+          <h2 style={{ color: '#1890ff', height: 60, alignItems: 'center', display: 'flex', justifyContent: 'center' }}>{snap.menu.collapsed ? '后台' : '后台管理系统'}</h2>
 
-      <Layout>
-        <Header style={{ background: '#fff', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10px' }}>
-          <Button type="text" onClick={() => (BUS.menu.collapsed = !snap.menu.collapsed)}>
-            {snap.menu.collapsed ? '展开' : '收起'}
-          </Button>
+          {/* 左侧菜单栏 */}
+          <Menu selectedKeys={[selected_key]} onClickMenuItem={(key) => set_selected_key(key)}>
+            <MenuItem key="dashboard">📈 仪表盘</MenuItem>
+            <MenuItem key="users">🏢 用户管理</MenuItem>
+            <MenuItem key="roles">🤝 角色管理</MenuItem>
+            <MenuItem key="articles">📃 文章列表</MenuItem>
+            <MenuItem key="publish">✍️ 发布文章</MenuItem>
+          </Menu>
+        </Sider>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-            <span>{snap.auth.user?.name || '用户'}</span>
-            <Dropdown
-              droplist={
-                <Menu>
-                  <MenuItem key="profile">个人信息</MenuItem>
-                  <MenuItem key="logout" onClick={handle_logout}>
-                    退出登录
-                  </MenuItem>
-                </Menu>
-              }
-            >
-              <Avatar style={{ cursor: 'pointer' }}>{snap.auth.user?.name?.charAt(0) || 'U'}</Avatar>
-            </Dropdown>
-          </div>
-        </Header>
+        <Layout>
+          <Header style={{ background: '#fff', height: 60, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 10px' }}>
+            <Button type="text" onClick={() => (BUS.menu.collapsed = !snap.menu.collapsed)}>
+              {snap.menu.collapsed ? '展开' : '收起'}
+            </Button>
 
-        <Content style={{ padding: '24px', background: '#f5f5f5', overflow: 'auto' }}>
-          {/* <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <span>{snap.auth.user?.name || '用户'}</span>
+              <Dropdown
+                droplist={
+                  <Menu>
+                    <MenuItem key="profile">个人信息</MenuItem>
+                    <MenuItem key="logout" onClick={handle_logout}>
+                      退出登录
+                    </MenuItem>
+                  </Menu>
+                }
+              >
+                <Avatar style={{ cursor: 'pointer' }}>{snap.auth.user?.name?.charAt(0) || 'U'}</Avatar>
+              </Dropdown>
+            </div>
+          </Header>
+
+          <Content style={{ padding: '24px', background: '#f5f5f5', overflow: 'auto' }}>
+            {/* <div>
             <Test1 />
             <Test2 />
           </div> */}
-          {render_content()}
-        </Content>
+            {render_content()}
+          </Content>
+        </Layout>
       </Layout>
-    </Layout>
+    </>
   )
 }
-
-
 
 // 在当页面注入下面的css
 // /* 强制隐藏所有省略号 - 使用通配符选择器 */

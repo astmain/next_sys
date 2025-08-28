@@ -14,7 +14,7 @@ export default function Article_list() {
       const response: any = await axios_api.post('/api/articles/list', { title: search_title })
       if (response.success) {
         BUS.article_list = (response.data || []) as any[]
-        console.log(BUS.article_list)
+        console.log('Article_list---article_list:', JSON.parse(JSON.stringify(BUS.article_list)))
         Message.success('加载文章列表成功')
       }
     } catch (error) {
