@@ -34,7 +34,11 @@ export const BUS = proxy({
 })
 
 export default function Home() {
-  const snap = useSnapshot(BUS)
+  const snap = useSnapshot(BUS)'' +
+  ';[' +
+  '];'
+
+  ''
   
   // 根据登录状态显示不同页面
   if (snap.auth.is_logged_in) {
