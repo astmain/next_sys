@@ -18,8 +18,8 @@ export default function Dashboard() {
       if (response.success) {
         BUS.data.users = response.data.users || []
         BUS.data.roles = response.data.roles || []
-        BUS.article_list = response.data.articles || []
-        console.log('article_list', JSON.parse(JSON.stringify(BUS.article_list)))
+        BUS.article_count = response.data.article_count
+        console.log('dashboard', response.data)
       }
     } catch (error) {
       console.error('加载仪表盘数据失败:', error)
@@ -57,7 +57,7 @@ export default function Dashboard() {
           </Grid.Col>
           <Grid.Col span={8}>
             <Card>
-              <Statistic title="文章总数" value={BUS.article_list.length} style={{ color: '#f5222d' }} />
+              <Statistic title="文章总数" value={BUS.article_count} style={{ color: '#f5222d' }} />
             </Card>
           </Grid.Col>
         </Grid.Row>

@@ -29,8 +29,12 @@ export const BUS = proxy({
     roles: [] as any[],
   },
 
+
+  
+
   article_list: [] as any[],
   article_show: false,
+  article_count: 0,
   article_curr: {} as any,
 
   // 通用状态
