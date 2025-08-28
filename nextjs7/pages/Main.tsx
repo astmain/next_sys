@@ -59,6 +59,9 @@ export default function Main() {
     <Layout style={{ height: '100vh' }}>
       <Sider collapsed={snap.menu.collapsed} collapsible onCollapse={(collapsed) => (BUS.menu.collapsed = collapsed)}>
         <h2 style={{ color: '#1890ff', height: 60, alignItems: 'center', display: 'flex', justifyContent: 'center' }}>{snap.menu.collapsed ? '后台' : '后台管理系统'}</h2>
+       
+       {/* 左侧菜单栏 */}
+       {/* 我想设置菜单的样式,收起时 宽度150px,展开时 宽带200px */}
         <Menu selectedKeys={[selected_key]} onClickMenuItem={(key) => set_selected_key(key)}>
           <MenuItem key="dashboard">📈 仪表盘</MenuItem>
           <MenuItem key="users">🏢 用户管理</MenuItem>
