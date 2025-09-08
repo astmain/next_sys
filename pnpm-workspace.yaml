@@ -1,4 +1,5 @@
 packages:
+  - "nextjs0"
   - "nextjs1"
   - "nextjs2"
   - "nextjs3"
