@@ -17,9 +17,18 @@ export async function POST(request: NextRequest) {
     // 检查是否是第一个用户（超级管理员）
     const user_count = await prisma.tb_user.count()
     const is_super_admin = user_count === 0
+    const role_type = is_super_admin ? 'admin' : 'user'
 
     // 创建用户
-    const user = await prisma.tb_user.create({ data: { phone, password, name, remark: is_super_admin ? '超级管理员' : '普通用户' } })
+    const user = await prisma.tb_user.create({ 
+      data: { 
+        phone, 
+        password, 
+        name, 
+        role_type,
+        remark: is_super_admin ? '超级管理员' : '普通用户' 
+      } 
+    })
 
     // 如果是第一个用户，创建默认角色并分配
     if (is_super_admin) {

@@ -13,7 +13,17 @@ export async function POST(request: NextRequest) {
 
     // 生成简单的token（实际项目中应该使用JWT）
     const token = `token_${user.id}_${Date.now()}`
-    return NextResponse.json({ success: true, user: { id: user.id, phone: user.phone, name: user.name, roles: user.roles }, token })
+    return NextResponse.json({ 
+      success: true, 
+      user: { 
+        id: user.id, 
+        phone: user.phone, 
+        name: user.name, 
+        role_type: user.role_type,
+        roles: user.roles 
+      }, 
+      token 
+    })
   } catch (error) {
     console.error('Login error:', error)
     return NextResponse.json({ success: false, message: '服务器错误' })

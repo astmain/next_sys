@@ -15,6 +15,7 @@ model tb_user {
   password  String
   name      String?  // 昵称
   remark    String?  // 描述备注
+  role_type String   @default("user") // 角色类型: "admin" 超级管理员, "user" 普通用户
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

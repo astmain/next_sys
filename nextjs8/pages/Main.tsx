@@ -1,6 +1,4 @@
 'use client'
-
-'use client'
 import { Layout, Menu, Button, Avatar, Dropdown } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '../app/page'
@@ -13,6 +11,7 @@ import Article_publish from './Article_publish/Article_publish'
 import Dashboard from './Dashboard/Dashboard'
 import Test1 from './Test/Test1'
 import Test2 from './Test/Test2'
+import RoleTest from './Test/RoleTest'
 
 const { Header, Sider, Content } = Layout
 const MenuItem = Menu.Item
@@ -20,7 +19,20 @@ const MenuItem = Menu.Item
 export default function Main() {
   const snap = useSnapshot(BUS)
   const router = useRouter()
-  const [selected_key, set_selected_key] = useState('dashboard')
+  // 检查用户是否为管理员
+  const is_admin = () => {
+    if (!snap.auth.user?.roles || !Array.isArray(snap.auth.user.roles)) {
+      return false
+    }
+    return snap.auth.user.roles.some((role: any) => role.name === 'admin')
+  }
+
+  // 根据用户角色设置默认选中的菜单项
+  const get_default_selected_key = () => {
+    return is_admin() ? 'dashboard' : 'articles'
+  }
+  
+  const [selected_key, set_selected_key] = useState(get_default_selected_key())
 
   // 检查登录状态
   useEffect(() => {
@@ -29,9 +41,37 @@ export default function Main() {
     }
   }, [snap.auth.token, router])
 
+  // 当用户角色变化时，更新默认选中的菜单项
+  useEffect(() => {
+    const default_key = get_default_selected_key()
+    set_selected_key(default_key)
+  }, [snap.auth.user?.roles])
+
   const handle_logout = () => {
     BUS.auth.token = ''
     router.push('/')
+  }
+
+  // 根据用户角色获取菜单项
+  const get_menu_items = () => {
+    if (is_admin()) {
+      // 超级管理员菜单
+      return [
+        { key: 'dashboard', label: '📈 仪表盘' },
+        { key: 'users', label: '🏢 用户管理' },
+        { key: 'roles', label: '🤝 角色管理' },
+        { key: 'articles', label: '📃 文章列表' },
+        { key: 'publish', label: '✍️ 发布文章' },
+        { key: 'role_test', label: '🧪 角色测试' }
+      ]
+    } else {
+      // 普通用户菜单
+      return [
+        { key: 'articles', label: '📃 文章列表' },
+        { key: 'publish', label: '✍️ 发布文章' },
+        { key: 'role_test', label: '🧪 角色测试' }
+      ]
+    }
   }
 
   const render_content = () => {
@@ -46,8 +86,11 @@ export default function Main() {
         return <Article_list />
       case 'publish':
         return <Article_publish />
+      case 'role_test':
+        return <RoleTest />
       default:
-        return <Dashboard />
+        // 根据角色设置默认页面
+        return is_admin() ? <Dashboard /> : <Article_list />
     }
   }
 
@@ -75,11 +118,9 @@ export default function Main() {
 
           {/* 左侧菜单栏 */}
           <Menu selectedKeys={[selected_key]} onClickMenuItem={(key) => set_selected_key(key)}>
-            <MenuItem key="dashboard">📈 仪表盘</MenuItem>
-            <MenuItem key="users">🏢 用户管理</MenuItem>
-            <MenuItem key="roles">🤝 角色管理</MenuItem>
-            <MenuItem key="articles">📃 文章列表</MenuItem>
-            <MenuItem key="publish">✍️ 发布文章</MenuItem>
+            {get_menu_items().map((item) => (
+              <MenuItem key={item.key}>{item.label}</MenuItem>
+            ))}
           </Menu>
         </Sider>
 
