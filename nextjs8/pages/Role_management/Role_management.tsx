@@ -1,18 +1,24 @@
 'use client'
 import { useState, useEffect } from 'react'
-import { Card, Table, Input, Button, Space, Modal, Form, Message } from '@arco-design/web-react'
+import { Card, Table, Input, Button, Space, Modal, Form, Message, Checkbox, Tag } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '@/app/page'
-import { axios_api } from '@/app/axios_api' 
+import { axios_api } from '@/app/axios_api'
+import { WithPermission } from '@/app/components/PermissionGuard' 
 
 export default function Role_management() {
   const snap = useSnapshot(BUS)
   const [search_name, set_search_name] = useState('')
   const [modal_visible, set_modal_visible] = useState(false)
   const [editing_role, set_editing_role] = useState<any>(null)
+  const [permission_modal_visible, set_permission_modal_visible] = useState(false)
+  const [selected_role, set_selected_role] = useState<any>(null)
+  const [role_permissions, set_role_permissions] = useState<any[]>([])
+  const [selected_permissions, set_selected_permissions] = useState<number[]>([])
 
   useEffect(() => {
     load_roles()
+    load_permissions()
   }, [])
 
   const load_roles = async () => {
@@ -28,6 +34,17 @@ export default function Role_management() {
     }
   }
 
+  const load_permissions = async () => {
+    try {
+      const response: any = await axios_api.post('/api/permissions/list', {})
+      if (response.success) {
+        BUS.data.permissions = (response.data || []) as any[]
+      }
+    } catch (error) {
+      console.error('加载权限列表失败:', error)
+    }
+  }
+
   const handle_search = () => {
     load_roles()
   }
@@ -40,6 +57,40 @@ export default function Role_management() {
   const handle_edit = (role: any) => {
     set_editing_role(role)
     set_modal_visible(true)
+  }
+
+  const handle_assign_permissions = async (role: any) => {
+    set_selected_role(role)
+    try {
+      const response: any = await axios_api.get(`/api/roles/permissions?roleId=${role.id}`)
+      if (response.success) {
+        set_role_permissions(response.data || [])
+        set_selected_permissions(response.data?.map((p: any) => p.id) || [])
+        set_permission_modal_visible(true)
+      }
+    } catch (error) {
+      console.error('获取角色权限失败:', error)
+      Message.error('获取角色权限失败')
+    }
+  }
+
+  const handle_save_permissions = async () => {
+    try {
+      const response: any = await axios_api.post('/api/roles/permissions', {
+        roleId: selected_role.id,
+        permissionIds: selected_permissions,
+      })
+      if (response.success) {
+        Message.success('权限分配成功')
+        set_permission_modal_visible(false)
+        load_roles()
+      } else {
+        Message.error(response.message || '权限分配失败')
+      }
+    } catch (error) {
+      console.error('权限分配失败:', error)
+      Message.error('权限分配失败')
+    }
   }
 
   const handle_save = async (values: any) => {
@@ -88,12 +139,29 @@ export default function Role_management() {
       render: (date: string) => new Date(date).toLocaleString(),
     },
     {
+      title: '权限',
+      dataIndex: 'permissions',
+      key: 'permissions',
+      render: (permissions: any[]) => (
+        <Space wrap>
+          {permissions?.map((permission: any) => (
+            <Tag key={permission.id} color="blue">
+              {permission.name}
+            </Tag>
+          )) || '-'}
+        </Space>
+      ),
+    },
+    {
       title: '操作',
       key: 'action',
       render: (_: any, record: any) => (
         <Space>
           <Button type="text" onClick={() => handle_edit(record)}>
             编辑
+          </Button>
+          <Button type="text" onClick={() => handle_assign_permissions(record)}>
+            分配权限
           </Button>
         </Space>
       ),
@@ -146,6 +214,36 @@ export default function Role_management() {
             </Space>
           </Form.Item>
         </Form>
+      </Modal>
+
+      <Modal 
+        title={`分配权限 - ${selected_role?.name}`} 
+        visible={permission_modal_visible} 
+        onCancel={() => set_permission_modal_visible(false)} 
+        style={{ width: 600 }}
+        footer={
+          <Space>
+            <Button onClick={() => set_permission_modal_visible(false)}>取消</Button>
+            <Button type="primary" onClick={handle_save_permissions}>保存</Button>
+          </Space>
+        }
+      >
+        <Checkbox.Group 
+          value={selected_permissions} 
+          onChange={set_selected_permissions}
+          style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
+        >
+          {BUS.data.permissions.map((permission: any) => (
+            <Checkbox key={permission.id} value={permission.id}>
+              <Space>
+                <span>{permission.name}</span>
+                {permission.remark && (
+                  <Tag color="gray" size="small">{permission.remark}</Tag>
+                )}
+              </Space>
+            </Checkbox>
+          ))}
+        </Checkbox.Group>
       </Modal>
     </div>
   )

@@ -18,7 +18,11 @@ export async function POST(request: NextRequest) {
     const users = await prisma.tb_user.findMany({
       where,
       include: {
-        roles: true
+        roles: {
+          include: {
+            tb_permission: true
+          }
+        }
       },
       orderBy: {
         createdAt: 'desc'

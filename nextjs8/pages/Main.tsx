@@ -6,6 +6,9 @@ import { useRouter } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import User_management from './User_management/User_management'
 import Role_management from './Role_management/Role_management'
+import Permission_management from './Permission_management/Permission_management'
+import Permission_demo from './Permission_demo/Permission_demo'
+import Test_auth from './Test_auth/Test_auth'
 import Article_list from './Article_list/Article_list'
 import Article_publish from './Article_publish/Article_publish'
 import Dashboard from './Dashboard/Dashboard'
@@ -60,6 +63,9 @@ export default function Main() {
         { key: 'dashboard', label: '📈 仪表盘' },
         { key: 'users', label: '🏢 用户管理' },
         { key: 'roles', label: '🤝 角色管理' },
+        { key: 'permissions', label: '🔐 权限管理' },
+        { key: 'permission_demo', label: '🎯 权限演示' },
+        { key: 'test_auth', label: '🔧 认证测试' },
         { key: 'articles', label: '📃 文章列表' },
         { key: 'publish', label: '✍️ 发布文章' },
         { key: 'role_test', label: '🧪 角色测试' },
@@ -82,6 +88,12 @@ export default function Main() {
         return <User_management />
       case 'roles':
         return <Role_management />
+      case 'permissions':
+        return <Permission_management />
+      case 'permission_demo':
+        return <Permission_demo />
+      case 'test_auth':
+        return <Test_auth />
       case 'articles':
         return <Article_list />
       case 'publish':

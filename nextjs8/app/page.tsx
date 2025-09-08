@@ -27,6 +27,7 @@ export const BUS = proxy({
   data: {
     users: [] as any[],
     roles: [] as any[],
+    permissions: [] as any[],
   },
 
 

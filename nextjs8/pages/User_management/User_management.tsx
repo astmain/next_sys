@@ -1,6 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
-  import { Card, Table, Input, Button, Space, Modal, Form, Message } from '@arco-design/web-react'
+  import { Card, Table, Input, Button, Space, Modal, Form, Message, Tag } from '@arco-design/web-react'
 import { useSnapshot } from 'valtio'
 import { BUS } from '@/app/page'
 import { axios_api } from '@/app/axios_api'
@@ -81,7 +81,36 @@ export default function User_management() {
       title: '角色',
       dataIndex: 'roles',
       key: 'roles',
-      render: (roles: any[]) => roles?.map((role: any) => role.name).join(', ') || '-'
+      render: (roles: any[]) => (
+        <Space wrap>
+          {roles?.map((role: any) => (
+            <Tag key={role.id} color="blue">
+              {role.name}
+            </Tag>
+          )) || '-'}
+        </Space>
+      )
+    },
+    {
+      title: '权限',
+      dataIndex: 'permissions',
+      key: 'permissions',
+      render: (_: any, record: any) => {
+        const permissions = record.roles?.flatMap((role: any) => role.tb_permission || []) || []
+        const uniquePermissions = permissions.filter((permission: any, index: number, self: any[]) => 
+          index === self.findIndex(p => p.id === permission.id)
+        )
+        return (
+          <Space wrap>
+            {uniquePermissions.map((permission: any) => (
+              <Tag key={permission.id} color="green" size="small">
+                {permission.name}
+              </Tag>
+            ))}
+            {uniquePermissions.length === 0 && '-'}
+          </Space>
+        )
+      }
     },
     {
       title: '备注',

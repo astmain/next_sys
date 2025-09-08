@@ -12,9 +12,11 @@ const axios_instance = axios.create({
 // 请求拦截器
 axios_instance.interceptors.request.use(
   (config) => {
-    // 可在此处添加token等全局请求头
-    // const token = localStorage.getItem('token')
-    // if (token) config.headers['Authorization'] = `Bearer ${token}`
+    // 添加认证令牌
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`
+    }
     return config;
   },
   (error) => {

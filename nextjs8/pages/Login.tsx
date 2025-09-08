@@ -21,6 +21,8 @@ export default function Login() {
       if (response.success) {
         BUS.auth.user = response.user
         BUS.auth.token = response.token + '1111'
+        // 存储到 localStorage 以便 axios 拦截器使用
+        localStorage.setItem('token', response.token + '1111')
         console.log('BUS.auth.token', BUS.auth.token)
         Message.success('登录成功')
         router.push('/')
