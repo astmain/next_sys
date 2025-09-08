@@ -18,7 +18,6 @@ export async function POST(request: NextRequest) {
         phone: '15160315110', 
         password: '123456', 
         name: '超级管理员', 
-        role_type: 'admin',
         remark: '超级管理员' 
       } 
     })
@@ -29,7 +28,6 @@ export async function POST(request: NextRequest) {
         phone: '13800138000', 
         password: '123456', 
         name: '普通用户', 
-        role_type: 'user',
         remark: '普通用户' 
       } 
     })
@@ -41,8 +39,8 @@ export async function POST(request: NextRequest) {
       success: true, 
       message: '系统初始化成功', 
       data: { 
-        admin_user: { phone: admin_user.phone, password: '123456', name: admin_user.name, role_type: admin_user.role_type },
-        normal_user: { phone: normal_user.phone, password: '123456', name: normal_user.name, role_type: normal_user.role_type }
+        admin_user: { phone: admin_user.phone, password: '123456', name: admin_user.name },
+        normal_user: { phone: normal_user.phone, password: '123456', name: normal_user.name }
       } 
     })
   } catch (error) {

@@ -27,7 +27,6 @@ export default function RoleTest() {
       <div style={{ marginBottom: '20px' }}>
         <h3>角色判断结果：</h3>
         <p><strong>是否为管理员：</strong> {is_admin() ? '是' : '否'}</p>
-        <p><strong>角色类型：</strong> {snap.auth.user?.role_type || '未设置'}</p>
       </div>
 
       <div style={{ marginBottom: '20px' }}>

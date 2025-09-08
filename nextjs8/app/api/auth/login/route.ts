@@ -19,7 +19,6 @@ export async function POST(request: NextRequest) {
         id: user.id, 
         phone: user.phone, 
         name: user.name, 
-        role_type: user.role_type,
         roles: user.roles 
       }, 
       token 

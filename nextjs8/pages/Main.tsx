@@ -31,7 +31,7 @@ export default function Main() {
   const get_default_selected_key = () => {
     return is_admin() ? 'dashboard' : 'articles'
   }
-  
+
   const [selected_key, set_selected_key] = useState(get_default_selected_key())
 
   // 检查登录状态
@@ -62,14 +62,14 @@ export default function Main() {
         { key: 'roles', label: '🤝 角色管理' },
         { key: 'articles', label: '📃 文章列表' },
         { key: 'publish', label: '✍️ 发布文章' },
-        { key: 'role_test', label: '🧪 角色测试' }
+        { key: 'role_test', label: '🧪 角色测试' },
       ]
     } else {
       // 普通用户菜单
       return [
         { key: 'articles', label: '📃 文章列表' },
         { key: 'publish', label: '✍️ 发布文章' },
-        { key: 'role_test', label: '🧪 角色测试' }
+        { key: 'role_test', label: '🧪 角色测试' },
       ]
     }
   }

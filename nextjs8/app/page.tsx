@@ -10,7 +10,7 @@ export const BUS = proxy({
   // 用户认证状态
   count: 0,
   auth: {
-    user: { name: '', roles: [], id: 0, role_type: 'user' },
+    user: { name: '', roles: [], id: 0 },
     token: '',
 
     // user: null as any,
